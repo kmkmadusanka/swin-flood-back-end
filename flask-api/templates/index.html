@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <!--From https://codepen.io/frytyler/pen/EGdtg-->
+  <head>
+    <meta charset="UTF-8" />
+    <title>ML API</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Pacifico"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Arimo"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Hind:300"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="login">
+      <h1>Predict Location Rating</h1>
+
+      <!-- Main Input For Receiving Query to our ML -->
+      <form action="{{ url_for('predict')}}" method="post">
+        <input
+          type="number"
+          step="any"
+          name="star_grade"
+          placeholder="Star Grade"
+          required="required"
+        />
+        <input
+          type="number"
+          step="any"
+          name="city_center"
+          placeholder="Dist to City Center"
+          required="required"
+        />
+        <input
+          type="number"
+          step="any"
+          name="private_beach"
+          placeholder="Private Beach"
+          required="required"
+        />
+        <input
+          type="text"
+          name="beach_type"
+          placeholder="Beach Type"
+          required="required"
+        />
+        <input
+          type="number"
+          step="any"
+          name="lat"
+          placeholder="Latitude"
+          required="required"
+        />
+        <input
+          type="number"
+          step="any"
+          name="long"
+          placeholder="Longitude"
+          required="required"
+        />
+        <input
+          type="number"
+          step="any"
+          name="no_of_restaurants"
+          placeholder="#Restaurants"
+          required="required"
+        />
+        <input
+          type="number"
+          step="any"
+          name="no_of_cafes"
+          placeholder="#Cafes"
+          required="required"
+        />
+        <input
+          type="number"
+          step="any"
+          name="no_of_atms"
+          placeholder="# ATMs"
+          required="required"
+        />
+        <input
+          type="number"
+          step="any"
+          name="attraction_1"
+          placeholder="Distance to Att 1"
+          required="required"
+        />
+        <input
+          type="number"
+          step="any"
+          name="attraction_2"
+          placeholder="Distance to Att 2"
+          required="required"
+        />
+
+        <button type="submit" class="btn btn-primary btn-block btn-large">
+          Predict
+        </button>
+      </form>
+
+      <br />
+      <br />
+      {{ prediction_text }}
+    </div>
+  </body>
+</html>
