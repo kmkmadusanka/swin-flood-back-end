@@ -1,0 +1,2 @@
+mljar-supervised==0.10.4
+Flask==2.0.1
