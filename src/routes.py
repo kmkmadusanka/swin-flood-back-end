@@ -1,3 +1,5 @@
+from .users import Register, Login
+
 def initialize_routes(api):
-    pass
-    # api.add_resource(test, "/test")
+    api.add_resource(Register, "/register")
+    api.add_resource(Login, "/login")

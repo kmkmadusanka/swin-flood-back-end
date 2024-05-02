@@ -9,6 +9,7 @@ from flask_cors import CORS, cross_origin
 from flask_jwt_extended import JWTManager
 
 from src.routes import initialize_routes
+from database.init import CreateDB, CreateTables, DummyData, DropTables, TruncateTables
 
 logger.add('logs/'+str(datetime.datetime.now().date())+'/app.log', format='{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}', filter="__main__", colorize=True, level='DEBUG')
 
@@ -38,6 +39,27 @@ jwt = JWTManager(app)
 @app.route("/", methods=["GET", "POST"])
 def health():
     return "Backend server is running"
+
+
+@app.route("/db_create", methods=["GET", "POST"])
+def db_create():
+    return CreateDB()
+
+@app.route("/db_createtables", methods=["GET", "POST"])
+def db_createtables():
+    return CreateTables()
+
+@app.route("/db_dummydata", methods=["GET", "POST"])
+def db_dummydata():
+    return DummyData()
+
+@app.route("/db_droptables", methods=["GET", "POST"])
+def db_droptables():
+    return DropTables()
+
+@app.route("/db_truncatetables", methods=["GET", "POST"])
+def db_truncatetables():
+    return TruncateTables()
 
 
 # run Server
