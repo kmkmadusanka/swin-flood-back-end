@@ -7,6 +7,7 @@ def Select(select_fields, select_table, select_conditions, count):
   try:
     db = mysql.connector.connect(
       host = os.getenv("DB_HOST"),
+      port = os.getenv("DB_PORT"),
       user = os.getenv("DB_USER"),
       password = os.getenv("DB_PASSWORD"),
       database = os.getenv("DB_DATABASE")
@@ -29,6 +30,7 @@ def Insert(insert_table, insert_fields, insert_value_placeholder, insert_values)
   try:
     db = mysql.connector.connect(
       host = os.getenv("DB_HOST"),
+      port = os.getenv("DB_PORT"),
       user = os.getenv("DB_USER"),
       password = os.getenv("DB_PASSWORD"),
       database = os.getenv("DB_DATABASE")
@@ -46,6 +48,7 @@ def Update(update_table, update_fields, update_where):
   try:
     db = mysql.connector.connect(
       host = os.getenv("DB_HOST"),
+      port = os.getenv("DB_PORT"),
       user = os.getenv("DB_USER"),
       password = os.getenv("DB_PASSWORD"),
       database = os.getenv("DB_DATABASE")
