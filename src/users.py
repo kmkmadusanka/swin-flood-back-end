@@ -74,20 +74,12 @@ class Register(Resource):
             logger.error("Registraion failed - empty values\n")
             return {"response": "error", "message": "One or more required fields are empty!"}, 403
         
-        # return {"response": "success", "message": "User registered successfully!"}, 200
-
         password = MD5Hash(password)
         public_id = MD5Hash(email+"+"+password+"@SwinTIP")
         insert_values = [(email, password, public_id, fname, lname, address)]
         register_response = Insert("users", "email, password, public_id, f_name, l_name, address", "%s, %s, %s, %s, %s, %s", insert_values)
 
         if register_response == 1:
-            # try:
-            #     send_email([email], 'SwinTIP-Account-Activation', '{"activation_link": "'+os.getenv("API_HOST")+'/activate/user/'+public_id+'", "home_link": "https://corputip.me"}')
-            # except Exception as exception:
-            #     exc_type, exc_obj, exc_tb = sys.exc_info()
-            #     logger.error("\nException: "+str(exception)+"\nLine: "+str(exc_tb.tb_lineno))
-            #     return {"response": "success", "message": "An error occurred when sending the confirmation email!"}, 200
             logger.info("Registration successful - "+email)
             return {"response": "success"}, 200
         else:

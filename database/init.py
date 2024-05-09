@@ -65,8 +65,8 @@ def CreateTables():
 
   cursor.execute("""CREATE TABLE IF NOT EXISTS discussions (
   id INT NOT NULL AUTO_INCREMENT,
-  user_id INT(3),
-  avatar VARCHAR(225),
+  user_id VARCHAR(32),
+  avatar VARCHAR(225) DEFAULT 'https://static.vecteezy.com/system/resources/previews/020/911/737/original/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png',
   geo_lat VARCHAR(5),
   geo_lng VARCHAR(5),
   timestamp VARCHAR(20),
