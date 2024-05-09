@@ -43,6 +43,10 @@ class Discussion(Resource):
             logger.error("\nException: "+str(exception)+"\nLine: "+str(exc_tb.tb_lineno))
             return {"response": "error", "message": "Required fields are missing!"}, 403
 
+        if(user == "" or message == ""):
+            logger.error("Discussion post failed - empty values\n")
+            return {"response": "error", "message": "One or more required fields are empty!"}, 403
+        
         insert_values = [(user, str(geo[0]), str(geo[1]), str(datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")), message)]
         insert_response = Insert("discussions", "user_id, geo_lat, geo_lng, timestamp, message", "%s, %s, %s, %s, %s", insert_values)
 
