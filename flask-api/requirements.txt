@@ -1,2 +1,5 @@
-mljar-supervised==0.10.4
 Flask==2.0.1
+pandas
+pickle-mixin
+Werkzeug==2.2.2
+scikit-learn
