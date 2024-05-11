@@ -1,44 +1,61 @@
 from flask import Flask, request, jsonify, render_template
 import pickle
 from pandas import DataFrame
-from supervised.automl import AutoML
-import joblib
-from werkzeug.wrappers import response
 import random
+from werkzeug.wrappers import response
 
 app = Flask(__name__)
 
 #Malwathu Model
-malwathu_model = AutoML(
-    results_path="./Models/Coastal Location Model Production/")
+filename = './Models/MalwathuPrediction.pkl'
+model = pickle.load(open(filename, 'rb'))
 
 @app.route('/')
-def home():
-    return render_template('index.html')
-
+def hello():
+    response = {"waterLevel": "test"}
+    return jsonify(response)
 
 @app.route('/predict', methods=['POST'])
 def predict():
-
-    #data = (request.get_json(force=True))
-    #star_grade = data['starGrade']
-    #city_center = data['cityCenter']
-    #private_beach = data['privateBeach']
-    #beach_type = data['beachType']
-    #lat = data['lat']
+    print("bfr-prediction")
+    data = request.get_json(force=True)
+    
+    Murrunkan = data['murrunkan']
+    Pavattakulam = data['pavattakulam']
+    Nachchiduva = data['nachchiduva']
+    Vavniya = data['vavniya']
+    Mannr = data['mannr']
+    Apura = data['apura']
    
-    #int_features = [star_grade, city_center, private_beach, beach_type, lat]
+    int_features = [Murrunkan,Pavattakulam,Nachchiduva,Vavniya,Mannr,Apura]
 
-    #df = DataFrame([int_features], columns=['star_grade', 'city_center', 'private_beach', 'beach_type', 'lat'])
+    df = DataFrame([int_features], columns=['Murrunkan', 'Pavattakulam', 'Nachchiduva', 'Vavniya', 'Mannr','Apura'])
 
-    #prediction = attraction_coastal_model.predict(df)
+    prediction = model.predict(df)    
+    water_level = float(prediction[0])
+    print(water_level)    
+    flood_risk = "false"
+    severity = 0
+    
+    if water_level < 0.2:
+        water_level = 0.566
+        
+    if water_level > 10:
+        water_level = 11.554        
+ 
 
-    #location_rating = (round(prediction[0], 1))
+    if water_level > 5:
+        flood_risk = "true"
+        severity = 1
 
-    #scoreCard = 1 + 99 * (location_rating - 6.0) / (10 - 6.0)
-    #scoreCard = round(scoreCard, 2)
+    if water_level > 7:
+        severity = 2
+        
+    if water_level > 8:
+        severity = 3    
 
-    response = {"waterLevel": "3.55", "floodRisk": "yes"}
+    response = {"waterLevel": water_level, "floodRisk": flood_risk, "severity": severity}
+    
 
     return jsonify(response)
 
