@@ -81,6 +81,13 @@ def CreateTables():
   severity VARCHAR(10),
   PRIMARY KEY (id))""")
 
+  cursor.execute("""CREATE TABLE IF NOT EXISTS predictions (
+  date VARCHAR(10),
+  flood VARCHAR(5),
+  severity VARCHAR(2),
+  waterlevel VARCHAR(10),
+  PRIMARY KEY (date))""")
+
   cursor.close()
   db.close()
   return "Tables created"
@@ -100,6 +107,7 @@ def DropTables():
   cursor.execute("DROP TABLE history;")
   cursor.execute("DROP TABLE discussions;")
   cursor.execute("DROP TABLE severity;")
+  cursor.execute("DROP TABLE predictions;")
   db.commit()
   cursor.close()
   db.close()
@@ -115,11 +123,12 @@ def TruncateTables():
       database = os.getenv("DB_DATABASE")
     )
   cursor = db.cursor()
-  cursor.execute("TRUNCATE TABLE users;")
-  cursor.execute("TRUNCATE TABLE safelocations;")
-  cursor.execute("TRUNCATE TABLE history;")
-  cursor.execute("TRUNCATE TABLE discussions;")
-  cursor.execute("TRUNCATE TABLE severity;")
+  # cursor.execute("TRUNCATE TABLE users;")
+  # cursor.execute("TRUNCATE TABLE safelocations;")
+  # cursor.execute("TRUNCATE TABLE history;")
+  # cursor.execute("TRUNCATE TABLE discussions;")
+  # cursor.execute("TRUNCATE TABLE severity;")
+  cursor.execute("TRUNCATE TABLE predictions;")
   db.commit()
   cursor.close()
   db.close()
