@@ -7,6 +7,7 @@ import requests
 from loguru import logger
 from database.functions import Select, Insert
 from database.init import TruncateTables
+from src.email import sendEmail
 
 logger.add('logs/'+str(datetime.datetime.now().date())+'/prediction.log', format='{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}', filter="__main__", colorize=True, level='DEBUG')
 
@@ -49,6 +50,7 @@ class Predict(Resource):
             'Content-Type': 'application/json'
             }
         
+        email_alert = ""
         insert_values = []
         for payload in data:
             prediction_date = payload["date"]
@@ -56,6 +58,11 @@ class Predict(Resource):
             response = requests.request("POST", url, headers=headers, data=payload)
             prediction = json.loads(response.text)
             insert_values.append((prediction_date, prediction["floodRisk"], prediction["severity"], "%.2f" % prediction["waterLevel"]))
+            if(str(prediction["floodRisk"]) == "true"):
+                email_alert = email_alert+"+ "+str(prediction_date)+" - Flood risk with a severity of "+str(prediction["severity"])+"<br>"
+                
+        if(email_alert != ""):
+            sendEmail(email_alert)
             
         if(TruncateTables() == "Tables truncated"):
             db_response = Insert("predictions", "date, flood, severity, waterlevel", "%s, %s, %s, %s", insert_values)
